@@ -298,7 +298,7 @@ h1 {
     <div id="menu-container">
         <h1>Selecione o Quiz</h1>
         
-        <img id="menu-image" src="i.gif" alt="Imagem de Capa do Menu">
+        <img id="menu-image" src="I.gif" alt="Imagem de Capa do Menu">
 
         <div class="quiz-selection-card" onclick="startQuiz('clashRoyale')">
             <h3>Clash Royale Quiz</h3>
@@ -333,32 +333,61 @@ h1 {
 <script>
 
 // ===================================
-//              DADOS DOS QUIZES
+//      0. ARQUIVOS DE IMAGEM
+// ===================================
+const imageFiles = {
+    // Imagem do Menu Principal
+    MENU_IMAGE: "I.gif", // <-- Mude "I.gif" para o nome EXATO do seu arquivo (ex: "menu_fundo.png")
+
+    // Imagens das Perguntas do Clash Royale
+    CR_Q1: "henrique.png",
+    CR_Q2: "lengedaria.jpeg",
+    CR_Q3: "1.jpeg",
+    CR_Q4: "22.png",
+    CR_Q5: "evo.jpeg",
+    CR_Q6: "careca.jpg",
+    CR_Q7: "rei.jpeg",
+    CR_Q8: "mega.jpg",
+    CR_Q9: "bomba.jpg",
+    CR_Q10: "bow.jpeg",
+
+    // Imagens dos Resultados Finais
+    LOW_1: "burro1.jpeg",
+    LOW_2: "burro2.jpeg",
+    LOW_3: "burro3.jpeg",
+    MID_1: "mid1.png", // Exemplo com .png
+    MID_2: "mid2.jpeg",
+    GOOD: "niga.png",
+    PRO: "foda.jpeg"
+};
+
+// ===================================
+//              1. DADOS DOS QUIZES
 // ===================================
 
 const quizData = {
     clashRoyale: {
         title: "Clash Royale Quiz",
         questions: [
-            { number: 1, question: "Quanto custa o elixir da habilidade do Goblinstein?", image: "henrique.png",
+            { number: 1, question: "Quanto custa o elixir da habilidade do Goblinstein?", image: imageFiles.CR_Q1,
               options: ["2", "1", "3", "4"], correct: 0 },
-            { number: 2, question: "Qual dessas cartas não é lendária?", image: "lengedaria.jpeg",
+            { number: 2, question: "Qual dessas cartas não é lendária?", image: imageFiles.CR_Q2,
               options: ["Pescador", "Bárbaros de Elite", "Bruxa Sombria", "Goblin Machine"], correct: 1 },
-            { number: 3, question: "Qual a carta menos utilizada no Clash Royale?", image: "1.jpeg",
+            { number: 3, question: "Qual a carta menos utilizada no Clash Royale?", image: imageFiles.CR_Q3,
               options: ["Berserk", "Espírito de Cura", "Cabana de Bárbaros", "Goblin Lanceiro"], correct: 2 },
-            { number: 4, question: "Qual é essa arena no Clash Royale?", image: "22.png",
+            { number: 4, question: "Qual é essa arena no Clash Royale?", image: imageFiles.CR_Q4,
               options: ["19", "23", "17", "22"], correct: 3 },
-            { number: 5, question: "Qual evolução é a mais fraca atualmente?", image: "evo.jpeg",
+            { number: 5, question: "Qual evolução é a mais fraca atualmente?", image: imageFiles.CR_Q5,
               options: ["Mago Evoluído", "Tesla Evoluída", "Fornalha Evoluída", "Canhão Evoluído"], correct: 0 },
-            { number: 6, question: "Qual o melhor jogador dentre essas opções?", image: "careca.jpg",
+            { number: 6, question: "Qual o melhor jogador dentre essas opções?", image: imageFiles.CR_Q6,
               options: ["Mohamed Light", "Flakes Power", "LucasX Gamer", "Rafinha CR"], correct: 0 },
-            { number: 7, question: "Qual carta geralmente usada para ativar a Torre do Rei quando seu adversario lança um Corredor?", image: "rei.jpeg",
+            { number: 7, question: "Qual carta geralmente usada para ativar a Torre do Rei quando seu adversario lança um Corredor?", image: imageFiles.CR_Q7,
               options: ["Tesla", "Pescador", "Gelo", "Goblins"], correct: 1 }, 
-            { number: 8, question: "Entre essas opções qual carta seria mais adequada para defender o Mega Cavaleiro?", image: "mega.jpg",
+            { number: 8, question: "Entre essas opções qual carta seria mais adequada para defender o Mega Cavaleiro?", image: imageFiles.CR_Q8,
               options: ["Barril de Goblins", "Cavaleiro e Arqueira", "Espírito de Gelo", "Mineiro"], correct: 1 },
-            { number: 9, question: "Qual é o custo da Torre de Bombas?", image: "bomba.jpg",
+            { number: 9, question: "Qual é o custo da Torre de Bombas?", image: imageFiles.CR_Q9,
               options: ["4","3","5","6"], correct: 0 },
-            { number: 10, question: "Qual o custo da carta Lançador?", image: "bow.jpeg",
+            { number: 10, question: "Qual o custo da carta Lançador?", image: imageFiles.CR_Q10,
               options: ["4","5","6","7"], correct: 1 }
         ]
     },
@@ -390,10 +419,10 @@ const quizData = {
 };
 
 const resultImages = {
-    low: ["burro1.jpeg", "burro2.jpeg", "burro3.jpeg"],
-    mid: ["mid1.jpeg", "mid2.jpeg"],
-    good: ["niga.png"],
-    pro: ["foda.jpeg"]
+    low: [imageFiles.LOW_1, imageFiles.LOW_2, imageFiles.LOW_3],
+    mid: [imageFiles.MID_1, imageFiles.MID_2],
+    good: [imageFiles.GOOD],
+    pro: [imageFiles.PRO]
 };
 
 let currentQuizType = null;
@@ -407,7 +436,7 @@ function randomImage(arr) {
 }
 
 // ===================================
-//        FUNÇÕES DE VISIBILIDADE
+//        2. FUNÇÕES DE VISIBILIDADE
 // ===================================
 
 function showMenu() {
@@ -434,7 +463,7 @@ function startQuiz(quizType) {
 }
 
 // ===================================
-//        LÓGICA DO QUIZ
+//        3. LÓGICA DO QUIZ
 // ===================================
 
 function loadQuestion() {
@@ -554,8 +583,10 @@ function restartQuiz() {
 document.getElementById("restart-button").onclick = restartQuiz;
 
 // ===================================
-//        INICIALIZAÇÃO
+//        4. INICIALIZAÇÃO
 // ===================================
+// Adiciona o nome do arquivo do menu dinamicamente
+document.getElementById("menu-image").src = imageFiles.MENU_IMAGE;
 showMenu();
 
 </script>
