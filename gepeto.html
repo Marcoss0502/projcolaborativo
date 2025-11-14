@@ -28,7 +28,7 @@
     --incorrect: #F44336;
 
     --card-bg: rgba(18,25,55,0.85);
-    /* Novo: Fundo transparente para cards de quiz no menu */
+    /* Fundo transparente para cards de quiz no menu */
     --menu-card-bg: rgba(0, 0, 0, 0.4); 
 }
 
@@ -43,8 +43,8 @@ body {
     justify-content: center;
     align-items: center; /* Centraliza verticalmente o menu inicial */
     min-height: 100vh;
-    padding: 0; /* Remove padding do body para fundo full screen funcionar */
-    /* Mantém o fundo animado para toda a página (visível quando não há menu full screen) */
+    padding: 0; 
+    /* Mantém o fundo animado para toda a página (visível nos menus de quiz) */
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -58,14 +58,14 @@ body {
 .quiz-container {
     width: 100%;
     max-width: 550px;
-    padding: 20px 10px; /* Adiciona o padding de volta ao container para centralizar */
+    padding: 20px 10px; 
 }
 
 /* ======================
   NOVO: MENU DE INÍCIO (TELA CHEIA)
 ====================== */
 #start-menu {
-    position: fixed; /* Ocupa a tela inteira */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100vw;
@@ -75,7 +75,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    z-index: 100; /* Garante que fique acima de tudo */
+    z-index: 100; 
 
     /* === GIF COMO FUNDO FULL SCREEN === */
     background-image: url('I.gif');
@@ -92,24 +92,35 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 50% de opacidade */
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: -1; 
 }
 
+/* Título no Menu Inicial (w.png) */
 #start-menu-title {
     width: 90%;
     max-width: 450px;
     margin-bottom: 30px;
-    /* Ajustes para a imagem w.png */
-    border: 3px solid var(--yellow);
+    border: none; /* REMOVIDO: Borda amarela */
     border-radius: 10px;
+    
+    /* NOVO: Animação de Levitação */
+    animation: levitate 4s infinite ease-in-out;
 }
 
+@keyframes levitate {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Botão de Start (start.png) */
 #start-button {
     cursor: pointer;
-    width: 90%;
-    max-width: 300px;
+    width: 70%; /* Diminuído */
+    max-width: 250px; /* Diminuído */
     transition: transform 0.2s;
+    margin-top: 20px; /* Ajuste a posição abaixo do título */
 }
 
 #start-button:hover {
@@ -123,14 +134,14 @@ body {
     width: 100%;
     max-width: 450px;
     margin: 0 auto 30px;
-    border: 3px solid var(--yellow);
+    border: none; /* REMOVIDO: Borda amarela */
     border-radius: 10px;
     display: block;
 }
 
 
 /* ======================
-         TÍTULO H1 (usado nos quizzes)
+         TÍTULO H1
 ====================== */
 h1 {
     font-family: "Clash Display", sans-serif;
@@ -300,32 +311,21 @@ h1 {
 #menu-container {
     text-align: center;
     animation: fadeUp 0.4s ease-out;
-    padding: 20px; /* Adiciona padding aqui para o fundo aparecer */
-    border-radius: 18px; /* Borda arredondada para o menu */
+    padding: 20px; 
+    border-radius: 18px; 
     
-    /* REMOVIDO: O GIF foi movido para o #start-menu
-       Apenas mantendo o background visual que tínhamos (ou usando o card-bg) */
+    /* CORREÇÃO: Fundo sólido para que os cards de seleção sejam visíveis */
     background: var(--card-bg); 
     
     position: relative;
-    z-index: 1; /* Garante que o menu fique acima do fundo do body */
-    overflow: hidden; /* Garante que o conteúdo fique dentro dos limites */
-}
-
-/* REMOVIDO A SOBREPOSIÇÃO, pois o #menu-container voltou a ter fundo sólido (card-bg) */
-#menu-container::before {
-    display: none;
-}
-
-/* Remove a imagem de capa estática, pois agora ela é o fundo */
-#menu-image {
-    display: none; 
+    z-index: 1; 
+    overflow: hidden; 
 }
 
 
 .quiz-selection-card {
-    /* Usa o fundo normal para os cards de seleção */
-    background: var(--card-bg); 
+    /* CORREÇÃO: Usando fundo um pouco mais transparente para dar profundidade */
+    background: var(--menu-card-bg); 
     padding: 20px;
     border-radius: 18px;
     border: 3px solid var(--yellow);
@@ -337,7 +337,6 @@ h1 {
 
 .quiz-selection-card:hover {
     transform: translateY(-5px);
-    /* Sombra mais clara para destacar no fundo GIF */
     box-shadow: 0 10px 25px rgba(255,255,255,0.4); 
 }
 
@@ -355,15 +354,38 @@ h1 {
 }
 
 /* ======================
-       BOTÃO DE SAIR
+       BOTÃO DE SAIR/VOLTAR
 ====================== */
-.exit-button {
+
+/* Botão de Voltar para Menu de Seleção (dentro do quiz-area) */
+#back-to-selection {
     margin: 20px auto 0;
     padding: 10px 20px;
     border-radius: 10px;
-    background: #e57373; /* Cor Vermelha Suave */
+    background: var(--blue-mid); 
+    color: var(--white);
+    border: 2px solid var(--blue-dark); 
+    font-size: clamp(14px, 4vw, 20px);
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    max-width: 270px;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4); 
+}
+#back-to-selection:hover {
+    background: var(--blue-strong);
+}
+
+/* Botão de Sair com Confirmação (dentro do quiz-area/result-container) */
+.exit-button {
+    /* Estilo mantido do original, mas agora com a função de confirmação */
+    margin: 15px auto 0; /* Ajustado para ficar abaixo do novo botão */
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #e57373; 
     color: #000;
-    border: 2px solid #b71c1c; /* Borda Vermelha Escura */
+    border: 2px solid #b71c1c; 
     font-size: clamp(14px, 4vw, 20px);
     font-weight: 600;
     cursor: pointer;
@@ -421,7 +443,9 @@ h1 {
             <button id="restart-button">Reiniciar Quiz</button> 
         </div>
 
-        <button class="exit-button" onclick="showMenu()">Sair para o Menu</button>
+        <button id="back-to-selection" onclick="confirmExitToMenu()">Voltar para Seleção</button>
+
+        <button class="exit-button" onclick="confirmExitToMenu()">Sair para o Menu</button>
     </div>
 
 </div>
@@ -542,7 +566,7 @@ function showStartMenu() {
 
 
 function showMenu() {
-    document.getElementById("start-menu").style.display = "none"; // Esconde o menu de início
+    document.getElementById("start-menu").style.display = "none"; 
     document.getElementById("menu-container").style.display = "block";
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
@@ -561,8 +585,19 @@ function startQuiz(quizType) {
     document.getElementById("result-container").style.display = "none";
     document.getElementById("menu-container").style.display = "none";
     document.getElementById("clash-royale-quiz-area").style.display = "block";
+    
+    // Garante que o botão de voltar apareça no início do quiz
+    document.getElementById("back-to-selection").style.display = "block"; 
 
     loadQuestion();
+}
+
+// NOVO: Função para confirmar a saída do quiz
+function confirmExitToMenu() {
+    const isConfirmed = confirm("Tem certeza que deseja sair? Seu progresso será perdido.");
+    if (isConfirmed) {
+        showMenu();
+    }
 }
 
 // ===================================
@@ -591,6 +626,8 @@ function loadQuestion() {
     });
 
     document.getElementById("next-button").style.display = "none";
+    // Oculta o botão de voltar quando o quiz está no modo de resposta/próxima pergunta
+    document.getElementById("back-to-selection").style.display = "block"; 
 }
 
 function handleAnswer(btn, q) {
@@ -616,6 +653,8 @@ function handleAnswer(btn, q) {
     else btn.classList.add("incorrect"); // Marca a incorreta (se não for a correta)
 
     document.getElementById("next-button").style.display = "block";
+    // Oculta o botão de voltar quando a resposta foi dada (para evitar confusão)
+    document.getElementById("back-to-selection").style.display = "none";
 }
 
 document.getElementById("next-button").onclick = () => {
@@ -626,6 +665,7 @@ document.getElementById("next-button").onclick = () => {
 function showResults() {
     document.getElementById("quiz-area").style.display = "none";
     document.getElementById("next-button").style.display = "none";
+    document.getElementById("back-to-selection").style.display = "none"; // Oculta o botão de voltar
 
     document.getElementById("result-container").style.display = "block";
     document.getElementById("final-score").innerText = score;
@@ -688,7 +728,7 @@ document.getElementById("restart-button").onclick = restartQuiz;
 // ===================================
 //        4. INICIALIZAÇÃO
 // ===================================
-showStartMenu(); // Altera a inicialização para mostrar o novo menu de início
+showStartMenu();
 
 </script>
 </body>
