@@ -10,9 +10,7 @@
 
 <style>
 
-/* ======================
-   VARIÁVEIS DE ESTILO
-====================== */
+// Variáveis de Estilo
 :root {
     --blue-dark: #1a237e;
     --blue-mid: #283593;
@@ -28,23 +26,21 @@
     --incorrect: #F44336;
 
     --card-bg: rgba(18,25,55,0.85);
-    /* Fundo transparente para cards de quiz no menu */
+    // Fundo transparente para cards de quiz
     --menu-card-bg: rgba(0, 0, 0, 0.4); 
 }
 
-/* ======================
-   ESTILO GERAL
-====================== */
+// Estilo Geral
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
     color: var(--white);
     display: flex;
     justify-content: center;
-    align-items: center; /* Centraliza verticalmente o menu inicial */
+    align-items: center; 
     min-height: 100vh;
     padding: 0; 
-    /* Mantém o fundo animado para toda a página (visível nos menus de quiz) */
+    // Fundo animado
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -61,9 +57,7 @@ body {
     padding: 20px 10px; 
 }
 
-/* ======================
-  MENU DE INÍCIO (TELA PRINCIPAL)
-====================== */
+// Menu de Início (Tela Principal)
 #start-menu {
     position: fixed; 
     top: 0;
@@ -77,14 +71,14 @@ body {
     text-align: center;
     z-index: 100; 
 
-    /* === GIF COMO FUNDO FULL SCREEN (Também para o Menu de Início) === */
+    // GIF como Fundo
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* Fundo semi-transparente para legibilidade na tela inicial */
+// Fundo semi-transparente na Tela Inicial
 #start-menu::before {
     content: "";
     position: absolute;
@@ -96,7 +90,7 @@ body {
     z-index: -1; 
 }
 
-/* Título no Menu Inicial (w.png) */
+// Título no Menu Inicial
 #start-menu-title {
     width: 90%;
     max-width: 450px;
@@ -104,7 +98,7 @@ body {
     border: none; 
     border-radius: 10px;
     
-    /* Animação de Levitação */
+    // Animação de Levitação
     animation: levitate 4s infinite ease-in-out;
 }
 
@@ -114,7 +108,7 @@ body {
     100% { transform: translateY(0px); }
 }
 
-/* Botão de Start (start.png) */
+// Botão de Start
 #start-button {
     cursor: pointer;
     width: 70%; 
@@ -127,9 +121,7 @@ body {
     transform: scale(1.05);
 }
 
-/* ======================
-  TÍTULO NA TELA DE SELEÇÃO
-====================== */
+// Título na Tela de Seleção
 #menu-title-image {
     width: 100%;
     max-width: 450px;
@@ -140,9 +132,7 @@ body {
 }
 
 
-/* ======================
-         TÍTULO H1
-====================== */
+// Título H1
 h1 {
     font-family: "Clash Display", sans-serif;
     text-align: center;
@@ -158,9 +148,7 @@ h1 {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* ======================
-       CARD DA PERGUNTA
-====================== */
+// Card da Pergunta
 .question-card {
     background: var(--card-bg);
     padding: 20px;
@@ -181,9 +169,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* ======================
-        IMAGENS
-====================== */
+// Imagens
 .question-image {
     width: 100%;
     border-radius: 12px;
@@ -192,9 +178,7 @@ h1 {
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* ======================
-     BOTÕES DE OPÇÃO
-====================== */
+// Botões de Opção
 .options-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -241,9 +225,7 @@ h1 {
     40% { transform: translateX(6px); }
 }
 
-/* ======================
-     BOTÃO PRÓXIMO/REINICIAR
-====================== */
+// Botão Próximo/Reiniciar
 #next-button, #restart-button {
     display: none;
     margin: 25px auto 0;
@@ -265,9 +247,7 @@ h1 {
     background: var(--yellow-strong);
 }
 
-/* ======================
-       TELA FINAL
-====================== */
+// Tela Final
 #result-container {
     display: none;
     text-align: center;
@@ -305,16 +285,14 @@ h1 {
     color: var(--white);
 }
 
-/* ======================
-       MENU DE SELEÇÃO
-====================== */
+// Menu de Seleção
 #menu-container {
     text-align: center;
     animation: fadeUp 0.4s ease-out;
     padding: 20px; 
     border-radius: 18px; 
     
-    /* NOVO: Restaurando o fundo de GIF para o menu de seleção */
+    // Fundo de GIF
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
@@ -325,7 +303,7 @@ h1 {
     overflow: hidden; 
 }
 
-/* NOVO: Sobreposição escura para garantir a legibilidade dos cards no menu de seleção */
+// Sobreposição escura no Menu de Seleção
 #menu-container::before {
     content: "";
     position: absolute;
@@ -333,14 +311,14 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo preto semi-transparente */
+    background-color: rgba(0, 0, 0, 0.4); 
     border-radius: 18px;
     z-index: -1; 
 }
 
 
 .quiz-selection-card {
-    /* Mantendo o fundo mais transparente para que o GIF apareça por trás */
+    // Fundo mais transparente
     background: var(--menu-card-bg); 
     padding: 20px;
     border-radius: 18px;
@@ -349,7 +327,7 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     text-align: left;
-    /* Garante que o card fique acima da sobreposição */
+    // Garante que o card fique acima da sobreposição
     position: relative;
     z-index: 1; 
 }
@@ -372,11 +350,7 @@ h1 {
     color: var(--light-text);
 }
 
-/* ======================
-       BOTÃO DE SAIR/VOLTAR
-====================== */
-
-/* Botão de Voltar para Menu de Seleção (dentro do quiz-area) */
+// Botão de Voltar para Menu de Seleção (dentro do quiz-area)
 #back-to-selection {
     margin: 20px auto 0;
     padding: 10px 20px;
@@ -396,7 +370,27 @@ h1 {
     background: var(--blue-strong);
 }
 
-/* Botão de Sair com Confirmação (dentro do quiz-area/result-container) */
+// Botão para o Menu Inicial (dentro da seleção de quiz)
+#back-to-start-menu {
+    margin-top: 30px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #5c6bc0; 
+    color: #fff;
+    border: 2px solid var(--blue-dark); 
+    font-size: clamp(14px, 4vw, 20px);
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    max-width: 270px;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4); 
+}
+#back-to-start-menu:hover {
+    background: #7986cb;
+}
+
+// Botão de Sair com Confirmação 
 .exit-button {
     margin: 15px auto 0; 
     padding: 10px 20px;
@@ -422,16 +416,21 @@ h1 {
 
 <body>
 
+// MENU DE INÍCIO (TELA PRINCIPAL)
 <div id="start-menu">
+    // Imagem de Título com Levitação
     <img id="start-menu-title" src="w.png" alt="Título do Quiz">
     
+    // Botão de Start
     <img id="start-button" src="start.png" alt="Botão de Start" onclick="showMenu()">
 </div>
 
 <div class="quiz-container">
 
+    // MENU DE SELEÇÃO
     <div id="menu-container" style="display: none;">
         
+        // Imagem de Título na Tela de Seleção
         <img id="menu-title-image" src="w.png" alt="Título do Quiz">
         
         <h1>Selecione o Quiz</h1>
@@ -445,9 +444,14 @@ h1 {
             <h3>Conhecimentos Gerais</h3>
             <p>Um desafio para sua mente! História, Ciência, Cultura Pop e muito mais.</p>
         </div>
+
+        // Botão para voltar para a tela inicial
+        <button id="back-to-start-menu" onclick="showStartMenu()">Voltar para Menu Inicial</button>
+
     </div>
 
 
+    // ÁREA DO QUIZ
     <div id="clash-royale-quiz-area" style="display: none;">
         <h1 id="quiz-title">Quiz</h1>
         <div id="quiz-area"></div>
@@ -461,8 +465,10 @@ h1 {
             <button id="restart-button">Reiniciar Quiz</button> 
         </div>
 
+        // Botão de Voltar para o Menu de Seleção
         <button id="back-to-selection" onclick="confirmExitToMenu()">Voltar para Seleção</button>
 
+        // Botão de Sair com confirmação
         <button class="exit-button" onclick="confirmExitToMenu()">Sair para o Menu</button>
     </div>
 
@@ -470,9 +476,7 @@ h1 {
 
 <script>
 
-// ===================================
-//      0. ARQUIVOS DE IMAGEM
-// ===================================
+// Arquivos de Imagem
 const imageFiles = {
     // Imagens das Perguntas do Clash Royale
     CR_Q1: "henrique.png",
@@ -496,10 +500,7 @@ const imageFiles = {
     PRO: "foda.jpeg"
 };
 
-// ===================================
-//              1. DADOS DOS QUIZES
-// ===================================
-
+// Dados dos Quizes
 const quizData = {
     clashRoyale: {
         title: "Clash Royale Quiz",
@@ -570,10 +571,7 @@ function randomImage(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// ===================================
-//        2. FUNÇÕES DE VISIBILIDADE
-// ===================================
-
+// Funções de Visibilidade
 function showStartMenu() {
     document.getElementById("start-menu").style.display = "flex";
     document.getElementById("menu-container").style.display = "none";
@@ -610,7 +608,7 @@ function startQuiz(quizType) {
     loadQuestion();
 }
 
-// NOVO: Função para confirmar a saída do quiz
+// Função para confirmar a saída do quiz
 function confirmExitToMenu() {
     // Usando confirm() para pedir confirmação
     const isConfirmed = confirm("Tem certeza que deseja voltar ao Menu de Seleção? Seu progresso neste quiz será perdido.");
@@ -619,10 +617,7 @@ function confirmExitToMenu() {
     }
 }
 
-// ===================================
-//        3. LÓGICA DO QUIZ
-// ===================================
-
+// Lógica do Quiz
 function loadQuestion() {
     if (index >= currentQuestions.length) return showResults();
 
@@ -653,7 +648,7 @@ function handleAnswer(btn, q) {
     const correct = q.correct;
     const choose = parseInt(btn.dataset.id);
 
-    // Lógica para respostas corretas (pode ser array ou número)
+    // Lógica para respostas corretas
     const isCorrect = Array.isArray(correct)
         ? correct.includes(choose)
         : choose === correct;
@@ -669,10 +664,10 @@ function handleAnswer(btn, q) {
     });
 
     if (isCorrect) score++;
-    else btn.classList.add("incorrect"); // Marca a incorreta (se não for a correta)
+    else btn.classList.add("incorrect"); // Marca a incorreta
 
     document.getElementById("next-button").style.display = "block";
-    // Oculta o botão de voltar quando a resposta foi dada (para evitar confusão)
+    // Oculta o botão de voltar quando a resposta foi dada
     document.getElementById("back-to-selection").style.display = "none";
 }
 
@@ -744,9 +739,7 @@ function restartQuiz() {
 
 document.getElementById("restart-button").onclick = restartQuiz;
 
-// ===================================
-//        4. INICIALIZAÇÃO
-// ===================================
+// Inicialização
 showStartMenu();
 
 </script>
