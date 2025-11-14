@@ -334,11 +334,10 @@ h1 {
 
 // ===================================
 //      0. ARQUIVOS DE IMAGEM
+//     (O MENU AGORA IGNORA ESSA SEÇÃO,
+//      MAS USE PARA AS OUTRAS IMAGENS)
 // ===================================
 const imageFiles = {
-    // Imagem do Menu Principal
-    MENU_IMAGE: "I.gif", // <-- Mude "I.gif" para o nome EXATO do seu arquivo (ex: "menu_fundo.png")
-
     // Imagens das Perguntas do Clash Royale
     CR_Q1: "henrique.png",
     CR_Q2: "lengedaria.jpeg",
@@ -355,7 +354,7 @@ const imageFiles = {
     LOW_1: "burro1.jpeg",
     LOW_2: "burro2.jpeg",
     LOW_3: "burro3.jpeg",
-    MID_1: "mid1.png", // Exemplo com .png
+    MID_1: "mid1.png", 
     MID_2: "mid2.jpeg",
     GOOD: "niga.png",
     PRO: "foda.jpeg"
@@ -585,8 +584,6 @@ document.getElementById("restart-button").onclick = restartQuiz;
 // ===================================
 //        4. INICIALIZAÇÃO
 // ===================================
-// Adiciona o nome do arquivo do menu dinamicamente
-document.getElementById("menu-image").src = imageFiles.MENU_IMAGE;
 showMenu();
 
 </script>
