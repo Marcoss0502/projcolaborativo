@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clash Royale Quiz</title>
+
+<!-- Fontes -->
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ======================
+   VARIÁVEIS DE ESTILO
+====================== */
+:root {
+    --blue-dark: #1a237e;
+    --blue-mid: #283593;
+    --blue-strong: #0d47a1;
+
+    --yellow: #ffeb3b;
+    --yellow-strong: #ffc107;
+
+    --white: #fff;
+    --light-text: #eaeaea;
+
+    --correct: #4CAF50;
+    --incorrect: #F44336;
+
+    --card-bg: rgba(18,25,55,0.85);
+}
+
+/* ======================
+   ESTILO GERAL
+====================== */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    padding: 20px 10px;
+    animation: bg 18s infinite alternate;
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
+    background-size: 300% 300%;
+}
+
+@keyframes bg {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.quiz-container {
+    width: 100%;
+    max-width: 550px;
+}
+
+/* ======================
+         TÍTULO
+====================== */
+h1 {
+    font-family: "Clash Display", sans-serif;
+    text-align: center;
+    font-size: clamp(35px, 10vw, 70px);
+    margin: 20px 0 25px;
+    color: var(--yellow);
+    text-shadow: 4px 4px 10px #000;
+    animation: drop 0.8s ease-out;
+}
+
+@keyframes drop {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ======================
+       CARD DA PERGUNTA
+====================== */
+.question-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 18px;
+    border: 3px solid var(--yellow-strong);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    animation: fadeUp 0.4s ease-out;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.question-text {
+    font-size: clamp(16px, 5vw, 26px);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ======================
+        IMAGENS
+====================== */
+.question-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    border: 3px solid var(--yellow);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* ======================
+     BOTÕES DE OPÇÃO
+====================== */
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.option-button {
+    padding: 14px 10px;
+    font-size: clamp(14px, 4vw, 20px);
+    background: var(--blue-mid);
+    border-radius: 12px;
+    color: var(--light-text);
+    border: 2px solid var(--yellow);
+    cursor: pointer;
+    transition: 0.25s;
+    text-align: center;
+    font-weight: 600;
+}
+
+.option-button:hover {
+    transform: scale(1.05);
+    background: var(--blue-strong);
+}
+
+.option-button.correct {
+    background: var(--correct) !important;
+    border-color: #fff;
+    color: #000;
+    animation: pulse 0.3s ease-in-out;
+}
+
+.option-button.incorrect {
+    background: var(--incorrect) !important;
+    border-color: #fff;
+    animation: shake 0.3s;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.08); }
+}
+
+@keyframes shake {
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+}
+
+/* ======================
+     BOTÃO PRÓXIMO
+====================== */
+#next-button {
+    display: none;
+    margin: 25px auto 0;
+    padding: 15px 25px;
+    border-radius: 14px;
+    background: var(--yellow);
+    color: #000;
+    border: 2px solid var(--blue-dark);
+    font-size: clamp(16px, 5vw, 24px);
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    max-width: 270px;
+    transition: 0.2s;
+}
+
+#next-button:hover {
+    background: var(--yellow-strong);
+}
+
+/* ======================
+       TELA FINAL
+====================== */
+#result-container {
+    display: none;
+    text-align: center;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    border: 3px solid var(--yellow-strong);
+    animation: fadeUp 0.6s ease-out;
+}
+
+#result-container img {
+    width: 80%;
+    max-width: 260px;
+    margin-top: 20px;
+    border-radius: 12px;
+    border: 3px solid var(--yellow);
+}
+
+#result-container h2 {
+    font-family: "Clash Display", sans-serif;
+    font-size: clamp(28px, 8vw, 50px);
+    color: var(--yellow);
+}
+
+.score-display {
+    font-size: clamp(26px, 8vw, 40px);
+    font-weight: 700;
+    color: var(--yellow-strong);
+}
+
+.score-evaluation {
+    margin-top: 15px;
+    font-size: clamp(14px, 5vw, 25px);
+    font-weight: 600;
+    color: var(--white);
+}
+
+</style>
+</head>
+
+<body>
+<div class="quiz-container">
+
+    <h1>Clash Royale Quiz</h1>
+
+    <div id="quiz-area"></div>
+
+    <button id="next-button">Próxima Pergunta</button>
+
+    <div id="result-container">
+        <h2>Fim do Quiz!</h2>
+        <p>Sua pontuação final é: <span id="final-score" class="score-display">0</span>/10</p>
+        <p class="score-evaluation" id="score-message"></p>
+
+        <!-- IMAGEM FINAL AQUI -->
+        <img id="score-image" src="" alt="Resultado">
+    </div>
+
+</div>
+
+<script>
+
+const questions = [
+    { number: 1, question: "Quanto custa o elixir da habilidade do Goblinstein?", image: "henrique.png",
+      options: ["2", "1", "3", "4"], correct: 0 },
+
+    { number: 2, question: "Qual dessas cartas não é lendária?", image: "lengedaria.jpeg",
+      options: ["Pescador", "Bárbaros de Elite", "Bruxa Sombria", "Goblin Machine"], correct: 1 },
+
+    { number: 3, question: "Qual a carta menos utilizada no Clash Royale?", image: "1.jpeg",
+      options: ["Berserk", "Espírito de Cura", "Cabana de Bárbaros", "Goblin Lanceiro"], correct: 2 },
+
+    { number: 4, question: "Qual é essa arena no Clash Royale?", image: "22.png",
+      options: ["19", "23", "17", "22"], correct: 3 },
+
+    { number: 5, question: "Qual evolução é a mais fraca atualmente?", image: "evo.jpeg",
+      options: ["Mago Evoluído", "Tesla Evoluída", "Fornalha Evoluída", "Canhão Evoluído"], correct: 0 },
+
+    { number: 6, question: "Qual o melhor jogador dentre essas opções?", image: "careca.jpg",
+      options: ["Mohamed Light", "Flakes Power", "LucasX Gamer", "Rafinha CR"], correct: 0 },
+
+    { number: 7, question: "Qual carta geralmente usada para ativar a Torre do Rei quando seu adversario lança um Corredor?", image: "rei.jpeg",
+      options: ["Tesla", "Pescador", "Gelo", "Goblins"], correct: [1] },
+
+    { number: 8, question: "Entre essas opções qual carta seria mais adequada para defender o Mega Cavaleiro?", image: "mega.jpg",
+      options: ["Barril de Goblins", "Cavaleiro e Arqueira", "Espírito de Gelo", "Mineiro"], correct: 1 },
+
+    { number: 9, question: "Qual é o custo da Torre de Bombas?", image: "bomba.jpg",
+      options: ["4","3","5","6"], correct: 0 },
+
+    { number: 10, question: "Qual o custo da carta Lançador?", image: "bow.jpeg",
+      options: ["4","5","6","7"], correct: 1 }
+];
+
+let index = 0;
+let score = 0;
+
+/* ============================
+    LISTA DE IMAGENS POR NOTA
+============================ */
+const resultImages = {
+    low: ["burro1.jpeg", "burro2.jpeg", "burro3.jpeg"],
+    mid: ["mid1.jpeg", "mid2.jpeg"],
+    good: ["niga.png"],
+    pro: ["foda.jpeg"]
+};
+
+// Função para escolher imagem aleatória
+function randomImage(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ======================
+   LOADING DA PERGUNTA
+====================== */
+function loadQuestion() {
+    if (index >= questions.length) return showResults();
+
+    const q = questions[index];
+
+    document.getElementById("quiz-area").innerHTML = `
+        <div class="question-card">
+            <div class="question-text">${q.number}. ${q.question}</div>
+            ${q.image ? `<img src="${q.image}" class="question-image">` : ""}
+            <div class="options-container">
+                ${q.options.map((opt,i)=>`
+                    <button class="option-button" data-id="${i}">${opt}</button>
+                `).join("")}
+            </div>
+        </div>
+    `;
+
+    document.querySelectorAll(".option-button").forEach(btn=>{
+        btn.onclick = ()=>handleAnswer(btn, q);
+    });
+
+    document.getElementById("next-button").style.display = "none";
+}
+
+/* ======================
+   AVALIA A RESPOSTA
+====================== */
+function handleAnswer(btn, q) {
+    const correct = q.correct;
+    const choose = parseInt(btn.dataset.id);
+
+    const isCorrect = Array.isArray(correct)
+        ? correct.includes(choose)
+        : choose === correct;
+
+    document.querySelectorAll(".option-button").forEach(b => {
+        b.disabled = true;
+        if (Array.isArray(correct) && correct.includes(parseInt(b.dataset.id)))
+            b.classList.add("correct");
+        if (!Array.isArray(correct) && parseInt(b.dataset.id) === correct)
+            b.classList.add("correct");
+    });
+
+    if (isCorrect) score++;
+    else btn.classList.add("incorrect");
+
+    document.getElementById("next-button").style.display = "block";
+}
+
+document.getElementById("next-button").onclick = () => {
+    index++;
+    loadQuestion();
+};
+
+/* ======================
+   RESULTADOS FINAIS
+====================== */
+function showResults() {
+    document.getElementById("quiz-area").style.display = "none";
+    document.getElementById("next-button").style.display = "none";
+
+    document.getElementById("result-container").style.display = "block";
+    document.getElementById("final-score").innerText = score;
+
+    let msg = "";
+    let img = "";
+
+    if (score <= 3) {
+        msg = "Mto burro";
+        img = randomImage(resultImages.low);
+    } 
+    else if (score <= 6) {
+        msg = "Mais ou menos";
+        img = randomImage(resultImages.mid);
+    } 
+    else if (score <= 8) {
+        msg = "quase acertou mas errou";
+        img = randomImage(resultImages.good);
+    } 
+    else {
+        msg = "Voce necessita urgente de uma mulher";
+        img = randomImage(resultImages.pro);
+    }
+
+    document.getElementById("score-message").innerText = msg;
+    document.getElementById("score-image").src = img;
+}
+
+loadQuestion();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Quiz de Variedades</title>
+
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    /* ======================
+        VARIÁVEIS DE ESTILO
+    ====================== */
+    :root {
+        --blue-dark: #1a237e;
+        --blue-mid: #283593;
+        --blue-strong: #0d47a1;
+
+        --yellow: #ffeb3b;
+        --yellow-strong: #ffc107;
+
+        --white: #fff;
+        --light-text: #eaeaea;
+
+        --correct: #4CAF50;
+        --incorrect: #F44336;
+
+        --card-bg: rgba(18,25,55,0.85);
+    }
+
+    /* ======================
+        ESTILO GERAL
+    ====================== */
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        color: var(--white);
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Centraliza verticalmente também */
+        min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+        padding: 20px 10px;
+        animation: bg 18s infinite alternate;
+        background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
+        background-size: 300% 300%;
+    }
+
+    @keyframes bg {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+    .quiz-container {
+        width: 100%;
+        max-width: 550px;
+        position: relative; /* Para posicionar elementos filhos se necessário */
+    }
+
+    /* ======================
+        TÍTULO
+    ====================== */
+    h1 {
+        font-family: "Clash Display", sans-serif;
+        text-align: center;
+        font-size: clamp(35px, 10vw, 70px);
+        margin: 20px 0 25px;
+        color: var(--yellow);
+        text-shadow: 4px 4px 10px #000;
+        animation: drop 0.8s ease-out;
+    }
+
+    @keyframes drop {
+        from { transform: translateY(-40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ======================
+        CARD DA PERGUNTA / MENU / RESULTADO
+    ====================== */
+    .card {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 18px;
+        border: 3px solid var(--yellow-strong);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        animation: fadeUp 0.4s ease-out forwards; /* 'forwards' para manter o estado final */
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-text {
+        font-size: clamp(16px, 5vw, 26px);
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    /* ======================
+        IMAGENS
+    ====================== */
+    .question-image, .result-image {
+        width: 100%;
+        height: auto; /* Garante que a imagem não distorça */
+        max-height: 250px; /* Limita a altura das imagens das perguntas */
+        object-fit: contain; /* Redimensiona a imagem para caber dentro do contêiner, mantendo sua proporção */
+        border-radius: 12px;
+        margin-bottom: 18px;
+        border: 3px solid var(--yellow);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    /* ======================
+        BOTÕES DE OPÇÃO
+    ====================== */
+    .options-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .option-button {
+        padding: 14px 10px;
+        font-size: clamp(14px, 4vw, 20px);
+        background: var(--blue-mid);
+        border-radius: 12px;
+        color: var(--light-text);
+        border: 2px solid var(--yellow);
+        cursor: pointer;
+        transition: 0.25s;
+        text-align: center;
+        font-weight: 600;
+        -webkit-tap-highlight-color: transparent; /* Remove o highlight azul em mobile */
+    }
+
+    .option-button:not([disabled]):hover {
+        transform: scale(1.05);
+        background: var(--blue-strong);
+    }
+
+    .option-button.correct {
+        background: var(--correct) !important;
+        border-color: #fff;
+        color: #000;
+        animation: pulse 0.3s ease-in-out;
+    }
+
+    .option-button.incorrect {
+        background: var(--incorrect) !important;
+        border-color: #fff;
+        animation: shake 0.3s;
+    }
+
+    @keyframes pulse {
+        50% { transform: scale(1.08); }
+    }
+
+    @keyframes shake {
+        20% { transform: translateX(-6px); }
+        40% { transform: translateX(6px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+        100% { transform: translateX(0); }
+    }
+
+    /* ======================
+        BOTÃO PRÓXIMO
+    ====================== */
+    #next-button {
+        display: none; /* Controlado via JS */
+        margin: 25px auto 0;
+        padding: 15px 25px;
+        border-radius: 14px;
+        background: var(--yellow);
+        color: #000;
+        border: 2px solid var(--blue-dark);
+        font-size: clamp(16px, 5vw, 24px);
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        max-width: 270px;
+        transition: 0.2s;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    #next-button:hover {
+        background: var(--yellow-strong);
+    }
+
+    /* ======================
+        TELA FINAL
+    ====================== */
+    #result-container {
+        display: none; /* Controlado via JS */
+        text-align: center;
+    }
+
+    #result-container h2 {
+        font-family: "Clash Display", sans-serif;
+        font-size: clamp(28px, 8vw, 50px);
+        color: var(--yellow);
+        margin-bottom: 10px;
+    }
+
+    .score-display {
+        font-size: clamp(26px, 8vw, 40px);
+        font-weight: 700;
+        color: var(--yellow-strong);
+    }
+
+    .score-evaluation {
+        margin-top: 15px;
+        font-size: clamp(14px, 5vw, 25px);
+        font-weight: 600;
+        color: var(--white);
+    }
+
+    /* ======================
+        TELA DE MENU
+    ====================== */
+    #menu-container {
+        display: none; /* Controlado via JS */
+        text-align: center;
+    }
+
+    #menu-container h2 {
+        font-family: "Clash Display", sans-serif;
+        font-size: clamp(25px, 7vw, 40px);
+        color: var(--yellow);
+        margin-bottom: 25px;
+    }
+
+    .menu-button {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 18px 10px;
+        font-size: clamp(18px, 5vw, 28px);
+        background: var(--blue-strong);
+        border-radius: 14px;
+        color: var(--white);
+        border: 3px solid var(--yellow);
+        cursor: pointer;
+        transition: 0.25s;
+        font-weight: 700;
+        text-decoration: none; /* Para garantir que não haja sublinhado se for link */
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .menu-button:hover {
+        transform: scale(1.03);
+        background: var(--blue-dark);
+    }
+</style>
+</head>
+
+<body>
+<div class="quiz-container">
+    <h1 id="quiz-title">Super Quiz!</h1>
+
+    <div id="menu-container" class="card">
+        <h2>Escolha um Quiz</h2>
+        <button class="menu-button" onclick="QuizApp.startQuiz('clash')">👑 Clash Royale Quiz</button>
+        <button class="menu-button" onclick="QuizApp.startQuiz('flags')">🗺️ Que País é Esse? (Bandeiras)</button>
+    </div>
+
+    <div id="quiz-area" class="card" style="display: none;">
+        </div>
+
+    <button id="next-button">Próxima Pergunta</button>
+
+    <div id="result-container" class="card" style="display: none;">
+        <h2>Fim do Quiz!</h2>
+        <p>Sua pontuação final é: <span id="final-score" class="score-display">0</span>/<span id="total-questions-display">0</span></p>
+        <p class="score-evaluation" id="score-message"></p>
+
+        <img id="score-image" src="" alt="Resultado" class="result-image">
+
+        <button id="menu-button-final" class="menu-button" style="margin-top: 25px;" onclick="QuizApp.showMenu()">Voltar para o Menu</button>
+    </div>
+</div>
+
+<script>
+    const QuizApp = (() => {
+        // --- Dados dos Quizzes ---
+        const quizzes = {
+            clash: {
+                title: "Clash Royale Quiz",
+                questions: [
+                    { number: 1, question: "Quanto custa o elixir da habilidade do Goblinstein?", image: "henrique.png", options: ["2", "1", "3", "4"], correct: 0 },
+                    { number: 2, question: "Qual dessas cartas não é lendária?", image: "lengedaria.jpeg", options: ["Pescador", "Bárbaros de Elite", "Bruxa Sombria", "Goblin Machine"], correct: 1 },
+                    { number: 3, question: "Qual a carta menos utilizada no Clash Royale?", image: "1.jpeg", options: ["Berserk", "Espírito de Cura", "Cabana de Bárbaros", "Goblin Lanceiro"], correct: 2 },
+                    { number: 4, question: "Qual é essa arena no Clash Royale?", image: "22.png", options: ["19", "23", "17", "22"], correct: 3 },
+                    { number: 5, question: "Qual evolução é a mais fraca atualmente?", image: "evo.jpeg", options: ["Mago Evoluído", "Tesla Evoluída", "Fornalha Evoluída", "Canhão Evoluído"], correct: 0 },
+                    { number: 6, question: "Qual o melhor jogador dentre essas opções?", image: "careca.jpg", options: ["Mohamed Light", "Flakes Power", "LucasX Gamer", "Rafinha CR"], correct: 0 },
+                    { number: 7, question: "Qual carta geralmente usada para ativar a Torre do Rei quando seu adversario lança um Corredor?", image: "rei.jpeg", options: ["Tesla", "Pescador", "Gelo", "Goblins"], correct: 1 },
+                    { number: 8, question: "Entre essas opções qual carta seria mais adequada para defender o Mega Cavaleiro?", image: "mega.jpg", options: ["Barril de Goblins", "Cavaleiro e Arqueira", "Espírito de Gelo", "Mineiro"], correct: 1 },
+                    { number: 9, question: "Qual é o custo da Torre de Bombas?", image: "bomba.jpg", options: ["4","3","5","6"], correct: 0 },
+                    { number: 10, question: "Qual o custo da carta Lançador?", image: "bow.jpeg", options: ["4","5","6","7"], correct: 1 }
+                ]
+            },
+            flags: {
+                title: "Quiz de Bandeiras",
+                questions: [
+                    { number: 1, question: "Que país tem esta bandeira?", image: "flag_brasil.png", options: ["Portugal", "Argentina", "Brasil", "México"], correct: 2 },
+                    { number: 2, question: "Qual país pertence esta bandeira azul, branca e vermelha com estrelas?", image: "flag_eua.png", options: ["Reino Unido", "Austrália", "Canadá", "Estados Unidos"], correct: 3 },
+                    { number: 3, question: "Que país tem um círculo vermelho no centro da bandeira branca?", image: "flag_japao.png", options: ["China", "Japão", "Coreia do Sul", "Vietnã"], correct: 1 },
+                    { number: 4, question: "Que país é representado pela bandeira verde, branca e vermelha (vertical)?", image: "flag_italia.png", options: ["Espanha", "França", "Itália", "Irlanda"], correct: 2 },
+                    { number: 5, question: "Esta bandeira com um bordo em forma de folha de bordo (Maple Leaf) é de qual país?", image: "flag_canada.png", options: ["Nova Zelândia", "Canadá", "Dinamarca", "Finlândia"], correct: 1 },
+                    { number: 6, question: "Que país africano tem a bandeira com a estrela e o crescente verde?", image: "flag_argelia.png", options: ["Marrocos", "Egito", "Argélia", "Tunísia"], correct: 2 },
+                    { number: 7, question: "Qual país é simbolizado por esta bandeira com a cor vermelha e uma estrela amarela grande?", image: "flag_china.png", options: ["Rússia", "China", "Coreia do Norte", "Cuba"], correct: 1 },
+                    { number: 8, question: "Que bandeira é esta, com um sol no centro, representando o Sol de Maio?", image: "flag_argentina.png", options: ["Uruguai", "Paraguai", "Chile", "Argentina"], correct: 3 },
+                    { number: 9, question: "Bandeira com listras azuis e brancas, e um quadrado azul com uma cruz branca na parte superior esquerda.", image: "flag_grecia.png", options: ["Israel", "Grécia", "Finlândia", "Suécia"], correct: 1 },
+                    { number: 10, question: "Que país do Oriente Médio tem a bandeira vermelha, branca e preta com um falcão no centro?", image: "flag_egito.png", options: ["Arábia Saudita", "Iraque", "Jordânia", "Egito"], correct: 3 }
+                ]
+            }
+        };
+
+        // --- Imagens de Resultado ---
+        const resultImages = {
+            low: ["burro1.jpeg", "burro2.jpeg", "burro3.jpeg"],
+            mid: ["mid1.jpeg", "mid2.jpeg"],
+            good: ["niga.png"],
+            pro: ["foda.jpeg"]
+        };
+
+        // --- Variáveis de Estado do Quiz ---
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // --- Referências aos Elementos DOM ---
+        const dom = {
+            quizTitle: document.getElementById("quiz-title"),
+            menuContainer: document.getElementById("menu-container"),
+            quizArea: document.getElementById("quiz-area"),
+            nextButton: document.getElementById("next-button"),
+            resultContainer: document.getElementById("result-container"),
+            finalScore: document.getElementById("final-score"),
+            totalQuestionsDisplay: document.getElementById("total-questions-display"),
+            scoreMessage: document.getElementById("score-message"),
+            scoreImage: document.getElementById("score-image")
+        };
+
+        // --- Funções Auxiliares ---
+        function randomImage(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function hideAll() {
+            dom.menuContainer.style.display = "none";
+            dom.quizArea.style.display = "none";
+            dom.nextButton.style.display = "none";
+            dom.resultContainer.style.display = "none";
+        }
+
+        // --- Lógica Principal do Quiz ---
+        function showMenu() {
+            hideAll();
+            dom.quizTitle.innerText = "Super Quiz!";
+            dom.menuContainer.style.display = "block";
+        }
+
+        function startQuiz(quizType) {
+            currentQuiz = quizzes[quizType];
+            currentQuestionIndex = 0;
+            score = 0;
+
+            if (!currentQuiz) {
+                console.error("Tipo de quiz inválido:", quizType);
+                showMenu();
+                return;
+            }
+
+            hideAll();
+            dom.quizTitle.innerText = currentQuiz.title;
+            dom.quizArea.style.display = "block";
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= currentQuiz.questions.length) {
+                showResults();
+                return;
+            }
+
+            const q = currentQuiz.questions[currentQuestionIndex];
+
+            dom.quizArea.innerHTML = `
+                <div class="question-text">${q.number}. ${q.question}</div>
+                ${q.image ? `<img src="${q.image}" class="question-image" alt="Imagem da pergunta ${q.number}">` : ""}
+                <div class="options-container">
+                    ${q.options.map((opt, i) => `
+                        <button class="option-button" data-id="${i}">${opt}</button>
+                    `).join("")}
+                </div>
+            `;
+
+            document.querySelectorAll(".option-button").forEach(btn => {
+                btn.onclick = () => handleAnswer(btn, q);
+            });
+
+            dom.nextButton.style.display = "none";
+        }
+
+        function handleAnswer(selectedButton, questionData) {
+            const correctOptionIndex = questionData.correct;
+            const chosenOptionIndex = parseInt(selectedButton.dataset.id);
+
+            const isCorrect = Array.isArray(correctOptionIndex)
+                ? correctOptionIndex.includes(chosenOptionIndex)
+                : chosenOptionIndex === correctOptionIndex;
+
+            // Desabilita todos os botões de opção e mostra a resposta correta
+            document.querySelectorAll(".option-button").forEach(btn => {
+                btn.disabled = true;
+                const optionIndex = parseInt(btn.dataset.id);
+
+                if (Array.isArray(correctOptionIndex) ? correctOptionIndex.includes(optionIndex) : optionIndex === correctOptionIndex) {
+                    btn.classList.add("correct");
+                }
+            });
+
+            // Aplica estilo à resposta do usuário (se estiver errada)
+            if (isCorrect) {
+                score++;
+            } else {
+                selectedButton.classList.add("incorrect");
+            }
+
+            dom.nextButton.style.display = "block";
+        }
+
+        function showResults() {
+            hideAll();
+            dom.resultContainer.style.display = "block";
+            dom.finalScore.innerText = score;
+            dom.totalQuestionsDisplay.innerText = currentQuiz.questions.length;
+
+            let msg = "";
+            let img = "";
+            const maxScore = currentQuiz.questions.length;
+
+            if (score <= maxScore * 0.3) {
+                msg = "Muito burro!";
+                img = randomImage(resultImages.low);
+            } else if (score <= maxScore * 0.6) {
+                msg = "Mais ou menos...";
+                img = randomImage(resultImages.mid);
+            } else if (score <= maxScore * 0.8) {
+                msg = "Quase lá, mas errou!";
+                img = randomImage(resultImages.good);
+            } else {
+                msg = "Você necessita urgentemente de uma mulher!";
+                img = randomImage(resultImages.pro);
+            }
+
+            dom.scoreMessage.innerText = msg;
+            dom.scoreImage.src = img;
+        }
+
+        // --- Event Listeners ---
+        dom.nextButton.onclick = () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        };
+
+        // --- Inicialização ---
+        showMenu(); // Mostra o menu quando a página carrega
+
+        // Revela funções que podem ser chamadas globalmente (pelo HTML)
+        return {
+            showMenu,
+            startQuiz
+        };
+    })();
+</script>
+</body>
+</html>
