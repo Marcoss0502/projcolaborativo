@@ -10,7 +10,6 @@
 
 <style>
 
-/* Variáveis de Estilo */
 :root {
     --blue-dark: #1a237e;
     --blue-mid: #283593;
@@ -26,11 +25,9 @@
     --incorrect: #F44336;
 
     --card-bg: rgba(18,25,55,0.85);
-    /* Fundo transparente para cards de quiz */
     --menu-card-bg: rgba(0, 0, 0, 0.4); 
 }
 
-/* Estilo Geral */
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
@@ -40,7 +37,6 @@ body {
     align-items: center; 
     min-height: 100vh;
     padding: 0; 
-    /* Fundo animado */
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -57,7 +53,6 @@ body {
     padding: 20px 10px; 
 }
 
-/* Menu de Início (Tela Principal) */
 #start-menu {
     position: fixed; 
     top: 0;
@@ -71,14 +66,12 @@ body {
     text-align: center;
     z-index: 100; 
 
-    /* GIF como Fundo */
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* Fundo semi-transparente na Tela Inicial */
 #start-menu::before {
     content: "";
     position: absolute;
@@ -90,7 +83,6 @@ body {
     z-index: -1; 
 }
 
-/* Título no Menu Inicial */
 #start-menu-title {
     width: 90%;
     max-width: 450px;
@@ -98,7 +90,6 @@ body {
     border: none; 
     border-radius: 10px;
     
-    /* Animação de Levitação */
     animation: levitate 4s infinite ease-in-out;
 }
 
@@ -108,7 +99,6 @@ body {
     100% { transform: translateY(0px); }
 }
 
-/* Botão de Start */
 #start-button {
     cursor: pointer;
     width: 70%; 
@@ -121,7 +111,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Título na Tela de Seleção */
 #menu-title-image {
     width: 100%;
     max-width: 450px;
@@ -132,7 +121,6 @@ body {
 }
 
 
-/* Título H1 */
 h1 {
     font-family: "Clash Display", sans-serif;
     text-align: center;
@@ -148,7 +136,6 @@ h1 {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Card da Pergunta */
 .question-card {
     background: var(--card-bg);
     padding: 20px;
@@ -160,7 +147,7 @@ h1 {
 
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
-    to { transform: translateY(0); opacity: 1; }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .question-text {
@@ -169,7 +156,6 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* Imagens */
 .question-image {
     width: 100%;
     border-radius: 12px;
@@ -178,7 +164,6 @@ h1 {
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* Botões de Opção */
 .options-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -225,7 +210,6 @@ h1 {
     40% { transform: translateX(6px); }
 }
 
-/* Botão Próximo/Reiniciar */
 #next-button, #restart-button {
     display: none;
     margin: 25px auto 0;
@@ -247,7 +231,6 @@ h1 {
     background: var(--yellow-strong);
 }
 
-/* Tela Final */
 #result-container {
     display: none;
     text-align: center;
@@ -285,14 +268,12 @@ h1 {
     color: var(--white);
 }
 
-/* Menu de Seleção */
 #menu-container {
     text-align: center;
     animation: fadeUp 0.4s ease-out;
     padding: 20px; 
     border-radius: 18px; 
     
-    /* Fundo de GIF */
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
@@ -303,7 +284,6 @@ h1 {
     overflow: hidden; 
 }
 
-/* Sobreposição escura no Menu de Seleção */
 #menu-container::before {
     content: "";
     position: absolute;
@@ -318,8 +298,7 @@ h1 {
 
 
 .quiz-selection-card {
-    /* Fundo mais transparente */
-    background: var(--menu-card-bg); 
+    background: none;
     padding: 20px;
     border-radius: 18px;
     border: 3px solid var(--yellow);
@@ -327,10 +306,40 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     text-align: left;
-    /* Garante que o card fique acima da sobreposição */
     position: relative;
-    z-index: 1; 
+    z-index: 1;
+    overflow: hidden; 
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
+.clash-royale-card {
+    background-image: url('cr.png');
+}
+
+.general-knowledge-card {
+    background-image: url('cg.png');
+}
+
+.quiz-selection-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 15px; 
+    z-index: -1; 
+    transition: background-color 0.3s;
+}
+
+.quiz-selection-card:hover::before {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
 
 .quiz-selection-card:hover {
     transform: translateY(-5px);
@@ -342,16 +351,19 @@ h1 {
     color: var(--yellow);
     margin: 0;
     font-size: clamp(22px, 6vw, 35px);
+    position: relative;
 }
 
 .quiz-selection-card p {
     margin-top: 5px;
     font-size: clamp(14px, 4vw, 18px);
     color: var(--light-text);
+    position: relative;
 }
 
-/* Botão de Voltar para Menu de Seleção (dentro do quiz-area) */
+/* Agora, #back-to-selection é apenas o botão de saída do quiz */
 #back-to-selection {
+    display: none;
     margin: 20px auto 0;
     padding: 10px 20px;
     border-radius: 10px;
@@ -370,8 +382,9 @@ h1 {
     background: var(--blue-strong);
 }
 
-/* Botão para o Menu Inicial (dentro da seleção de quiz) - Será ocultado/mostrado pelo JS */
+/* Botão de Menu Inicial, APENAS NA SELEÇÃO DE QUIZ */
 #back-to-start-menu {
+    display: none;
     margin-top: 30px;
     padding: 10px 20px;
     border-radius: 10px;
@@ -388,27 +401,6 @@ h1 {
 }
 #back-to-start-menu:hover {
     background: #7986cb;
-}
-
-/* Botão de Sair com Confirmação */
-.exit-button {
-    margin: 15px auto 0; 
-    padding: 10px 20px;
-    border-radius: 10px;
-    background: #e57373; 
-    color: #000;
-    border: 2px solid #b71c1c; 
-    font-size: clamp(14px, 4vw, 20px);
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    max-width: 270px;
-    transition: 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4); 
-}
-
-.exit-button:hover {
-    background: #ef9a9a;
 }
 
 </style>
@@ -430,12 +422,12 @@ h1 {
         
         <h1>Selecione o Quiz</h1>
         
-        <div class="quiz-selection-card" onclick="startQuiz('clashRoyale')">
+        <div class="quiz-selection-card clash-royale-card" onclick="startQuiz('clashRoyale')">
             <h3>Clash Royale Quiz</h3>
             <p>Teste seus conhecimentos sobre o universo do Clash Royale: Cartas, Elixir e Jogadores!</p>
         </div>
 
-        <div class="quiz-selection-card" onclick="startQuiz('generalKnowledge')">
+        <div class="quiz-selection-card general-knowledge-card" onclick="startQuiz('generalKnowledge')">
             <h3>Conhecimentos Gerais</h3>
             <p>Um desafio para sua mente! História, Ciência, Cultura Pop e muito mais.</p>
         </div>
@@ -456,20 +448,17 @@ h1 {
             <p class="score-evaluation" id="score-message"></p>
             <img id="score-image" src="" alt="Resultado">
             <button id="restart-button">Reiniciar Quiz</button> 
+            
+            <button id="back-to-selection" onclick="confirmExitToMenu()">Sair do Quiz</button>
         </div>
 
-        <button id="back-to-selection" onclick="confirmExitToMenu()">Voltar para Seleção</button>
-
-        <button class="exit-button" onclick="confirmExitToMenu()">Sair para o Menu</button>
     </div>
 
 </div>
 
 <script>
 
-// Arquivos de Imagem
 const imageFiles = {
-    // Imagens das Perguntas do Clash Royale
     CR_Q1: "henrique.png",
     CR_Q2: "lengedaria.jpeg",
     CR_Q3: "1.jpeg",
@@ -481,7 +470,6 @@ const imageFiles = {
     CR_Q9: "bomba.jpg",
     CR_Q10: "bow.jpeg",
 
-    // Imagens dos Resultados Finais
     LOW_1: "burro1.jpeg",
     LOW_2: "burro2.jpeg",
     LOW_3: "burro3.jpeg",
@@ -491,7 +479,6 @@ const imageFiles = {
     PRO: "foda.jpeg"
 };
 
-// Dados dos Quizes
 const quizData = {
     clashRoyale: {
         title: "Clash Royale Quiz",
@@ -557,20 +544,18 @@ let currentQuestions = [];
 let index = 0;
 let score = 0;
 
-// Função para escolher imagem aleatória
 function randomImage(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Funções de Visibilidade
 function showStartMenu() {
     document.getElementById("start-menu").style.display = "flex";
     document.getElementById("menu-container").style.display = "none";
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
     document.getElementById("next-button").style.display = "none";
-    // Garante que o botão de voltar para o menu inicial está oculto
     document.getElementById("back-to-start-menu").style.display = "none"; 
+    document.getElementById("back-to-selection").style.display = "none"; 
 }
 
 
@@ -580,7 +565,8 @@ function showMenu() {
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
     document.getElementById("next-button").style.display = "none";
-    // Garante que o botão de voltar para o menu inicial ESTÁ visível APENAS AQUI
+    document.getElementById("back-to-selection").style.display = "none"; 
+    
     document.getElementById("back-to-start-menu").style.display = "block"; 
 }
 
@@ -588,7 +574,6 @@ function startQuiz(quizType) {
     currentQuizType = quizType;
     currentQuestions = quizData[quizType].questions;
     
-    // Configurações iniciais do Quiz
     index = 0;
     score = 0;
     document.getElementById("quiz-title").innerText = quizData[quizType].title;
@@ -597,23 +582,19 @@ function startQuiz(quizType) {
     document.getElementById("menu-container").style.display = "none";
     document.getElementById("clash-royale-quiz-area").style.display = "block";
     
-    // Garante que o botão de voltar para seleção apareça, e o inicial não
-    document.getElementById("back-to-selection").style.display = "block"; 
+    document.getElementById("back-to-selection").style.display = "none"; 
     document.getElementById("back-to-start-menu").style.display = "none"; 
 
     loadQuestion();
 }
 
-// Função para confirmar a saída do quiz
 function confirmExitToMenu() {
-    // Usando confirm() para pedir confirmação
     const isConfirmed = confirm("Tem certeza que deseja voltar ao Menu de Seleção? Seu progresso neste quiz será perdido.");
     if (isConfirmed) {
         showMenu();
     }
 }
 
-// Lógica do Quiz
 function loadQuestion() {
     if (index >= currentQuestions.length) return showResults();
 
@@ -636,23 +617,19 @@ function loadQuestion() {
     });
 
     document.getElementById("next-button").style.display = "none";
-    // Oculta o botão de voltar quando o quiz está no modo de resposta/próxima pergunta
-    document.getElementById("back-to-selection").style.display = "block"; 
+    document.getElementById("back-to-selection").style.display = "none"; 
 }
 
 function handleAnswer(btn, q) {
     const correct = q.correct;
     const choose = parseInt(btn.dataset.id);
 
-    // Lógica para respostas corretas
     const isCorrect = Array.isArray(correct)
         ? correct.includes(choose)
         : choose === correct;
 
-    // Desabilitar botões e mostrar resultado da opção
     document.querySelectorAll(".option-button").forEach(b => {
         b.disabled = true;
-        // Marca a correta
         if (Array.isArray(correct) && correct.includes(parseInt(b.dataset.id)))
             b.classList.add("correct");
         if (!Array.isArray(correct) && parseInt(b.dataset.id) === correct)
@@ -660,11 +637,10 @@ function handleAnswer(btn, q) {
     });
 
     if (isCorrect) score++;
-    else btn.classList.add("incorrect"); // Marca a incorreta
+    else btn.classList.add("incorrect");
 
     document.getElementById("next-button").style.display = "block";
-    // Oculta o botão de voltar quando a resposta foi dada
-    document.getElementById("back-to-selection").style.display = "none";
+    document.getElementById("back-to-selection").style.display = "none"; 
 }
 
 document.getElementById("next-button").onclick = () => {
@@ -675,7 +651,6 @@ document.getElementById("next-button").onclick = () => {
 function showResults() {
     document.getElementById("quiz-area").style.display = "none";
     document.getElementById("next-button").style.display = "none";
-    document.getElementById("back-to-selection").style.display = "none"; // Oculta o botão de voltar
 
     document.getElementById("result-container").style.display = "block";
     document.getElementById("final-score").innerText = score;
@@ -685,7 +660,6 @@ function showResults() {
     let img = "";
     const percentage = (score / currentQuestions.length) * 100;
 
-    // Lógica de avaliação de resultados
     if (currentQuizType === 'clashRoyale') {
         if (score <= 3) {
             msg = "Mto burro";
@@ -704,7 +678,7 @@ function showResults() {
             img = randomImage(resultImages.pro);
         }
     } 
-    else { // Lógica para Conhecimentos Gerais
+    else {
         if (percentage < 30) {
             msg = "Bro qual sua ultilidade no mundo?";
             img = randomImage(resultImages.low);
@@ -723,6 +697,8 @@ function showResults() {
 
     document.getElementById("score-message").innerText = msg;
     document.getElementById("score-image").src = img;
+    
+    document.getElementById("back-to-selection").style.display = "block";
 }
 
 function restartQuiz() {
@@ -730,12 +706,12 @@ function restartQuiz() {
     score = 0;
     document.getElementById("result-container").style.display = "none";
     document.getElementById("quiz-area").style.display = "block";
+    document.getElementById("back-to-selection").style.display = "none"; 
     loadQuestion();
 }
 
 document.getElementById("restart-button").onclick = restartQuiz;
 
-// Inicialização
 showStartMenu();
 
 </script>
