@@ -41,8 +41,10 @@ body {
     color: var(--white);
     display: flex;
     justify-content: center;
-    padding: 20px 10px;
-    /* Mantém o fundo animado para toda a página */
+    align-items: center; /* Centraliza verticalmente o menu inicial */
+    min-height: 100vh;
+    padding: 0; /* Remove padding do body para fundo full screen funcionar */
+    /* Mantém o fundo animado para toda a página (visível quando não há menu full screen) */
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -56,10 +58,79 @@ body {
 .quiz-container {
     width: 100%;
     max-width: 550px;
+    padding: 20px 10px; /* Adiciona o padding de volta ao container para centralizar */
 }
 
 /* ======================
-         TÍTULO
+  NOVO: MENU DE INÍCIO (TELA CHEIA)
+====================== */
+#start-menu {
+    position: fixed; /* Ocupa a tela inteira */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100; /* Garante que fique acima de tudo */
+
+    /* === GIF COMO FUNDO FULL SCREEN === */
+    background-image: url('I.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Fundo semi-transparente para legibilidade na tela inicial */
+#start-menu::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% de opacidade */
+    z-index: -1; 
+}
+
+#start-menu-title {
+    width: 90%;
+    max-width: 450px;
+    margin-bottom: 30px;
+    /* Ajustes para a imagem w.png */
+    border: 3px solid var(--yellow);
+    border-radius: 10px;
+}
+
+#start-button {
+    cursor: pointer;
+    width: 90%;
+    max-width: 300px;
+    transition: transform 0.2s;
+}
+
+#start-button:hover {
+    transform: scale(1.05);
+}
+
+/* ======================
+  TÍTULO NA TELA DE SELEÇÃO
+====================== */
+#menu-title-image {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 30px;
+    border: 3px solid var(--yellow);
+    border-radius: 10px;
+    display: block;
+}
+
+
+/* ======================
+         TÍTULO H1 (usado nos quizzes)
 ====================== */
 h1 {
     font-family: "Clash Display", sans-serif;
@@ -232,28 +303,18 @@ h1 {
     padding: 20px; /* Adiciona padding aqui para o fundo aparecer */
     border-radius: 18px; /* Borda arredondada para o menu */
     
-    /* === NOVO: GIF COMO FUNDO DO MENU === */
-    background-image: url('I.gif');
-    background-size: cover; /* Faz a imagem cobrir toda a área */
-    background-position: center;
-    background-repeat: no-repeat; /* Para que o GIF não se repita (se for grande) */
+    /* REMOVIDO: O GIF foi movido para o #start-menu
+       Apenas mantendo o background visual que tínhamos (ou usando o card-bg) */
+    background: var(--card-bg); 
     
-    /* Adiciona uma camada escura para o texto ser legível sobre o GIF */
     position: relative;
     z-index: 1; /* Garante que o menu fique acima do fundo do body */
-    overflow: hidden; /* Garante que o GIF fique dentro dos limites */
+    overflow: hidden; /* Garante que o conteúdo fique dentro dos limites */
 }
-/* Opcional: Adiciona uma sobreposição escura para melhorar a leitura */
+
+/* REMOVIDO A SOBREPOSIÇÃO, pois o #menu-container voltou a ter fundo sólido (card-bg) */
 #menu-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo preto semi-transparente */
-    border-radius: 18px;
-    z-index: -1; /* Fica atrás do conteúdo */
+    display: none;
 }
 
 /* Remove a imagem de capa estática, pois agora ela é o fundo */
@@ -263,8 +324,8 @@ h1 {
 
 
 .quiz-selection-card {
-    /* Usa o novo fundo mais transparente para ver o GIF de fundo */
-    background: var(--menu-card-bg); 
+    /* Usa o fundo normal para os cards de seleção */
+    background: var(--card-bg); 
     padding: 20px;
     border-radius: 18px;
     border: 3px solid var(--yellow);
@@ -320,13 +381,21 @@ h1 {
 </head>
 
 <body>
+
+<div id="start-menu">
+    <img id="start-menu-title" src="w.png" alt="Título do Quiz">
+    
+    <img id="start-button" src="start.png" alt="Botão de Start" onclick="showMenu()">
+</div>
+
 <div class="quiz-container">
 
-    <div id="menu-container">
+    <div id="menu-container" style="display: none;">
+        
+        <img id="menu-title-image" src="w.png" alt="Título do Quiz">
+        
         <h1>Selecione o Quiz</h1>
         
-        <div id="menu-image-placeholder"></div>
-
         <div class="quiz-selection-card" onclick="startQuiz('clashRoyale')">
             <h3>Clash Royale Quiz</h3>
             <p>Teste seus conhecimentos sobre o universo do Clash Royale: Cartas, Elixir e Jogadores!</p>
@@ -463,7 +532,17 @@ function randomImage(arr) {
 //        2. FUNÇÕES DE VISIBILIDADE
 // ===================================
 
+function showStartMenu() {
+    document.getElementById("start-menu").style.display = "flex";
+    document.getElementById("menu-container").style.display = "none";
+    document.getElementById("clash-royale-quiz-area").style.display = "none";
+    document.getElementById("result-container").style.display = "none";
+    document.getElementById("next-button").style.display = "none";
+}
+
+
 function showMenu() {
+    document.getElementById("start-menu").style.display = "none"; // Esconde o menu de início
     document.getElementById("menu-container").style.display = "block";
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
@@ -609,9 +688,8 @@ document.getElementById("restart-button").onclick = restartQuiz;
 // ===================================
 //        4. INICIALIZAÇÃO
 // ===================================
-showMenu();
+showStartMenu(); // Altera a inicialização para mostrar o novo menu de início
 
 </script>
 </body>
 </html>
-
