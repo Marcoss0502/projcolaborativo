@@ -160,7 +160,7 @@ h1 {
 
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .question-text {
@@ -370,7 +370,7 @@ h1 {
     background: var(--blue-strong);
 }
 
-/* Botão para o Menu Inicial (dentro da seleção de quiz) */
+/* Botão para o Menu Inicial (dentro da seleção de quiz) - Será ocultado/mostrado pelo JS */
 #back-to-start-menu {
     margin-top: 30px;
     padding: 10px 20px;
@@ -416,21 +416,16 @@ h1 {
 
 <body>
 
-/* MENU DE INÍCIO (TELA PRINCIPAL) */
 <div id="start-menu">
-    /* Imagem de Título com Levitação */
     <img id="start-menu-title" src="w.png" alt="Título do Quiz">
     
-    /* Botão de Start */
     <img id="start-button" src="start.png" alt="Botão de Start" onclick="showMenu()">
 </div>
 
 <div class="quiz-container">
 
-    /* MENU DE SELEÇÃO */
     <div id="menu-container" style="display: none;">
         
-        /* Imagem de Título na Tela de Seleção */
         <img id="menu-title-image" src="w.png" alt="Título do Quiz">
         
         <h1>Selecione o Quiz</h1>
@@ -445,13 +440,11 @@ h1 {
             <p>Um desafio para sua mente! História, Ciência, Cultura Pop e muito mais.</p>
         </div>
 
-        /* Botão para voltar para a tela inicial */
         <button id="back-to-start-menu" onclick="showStartMenu()">Voltar para Menu Inicial</button>
 
     </div>
 
 
-    /* ÁREA DO QUIZ */
     <div id="clash-royale-quiz-area" style="display: none;">
         <h1 id="quiz-title">Quiz</h1>
         <div id="quiz-area"></div>
@@ -465,10 +458,8 @@ h1 {
             <button id="restart-button">Reiniciar Quiz</button> 
         </div>
 
-        /* Botão de Voltar para o Menu de Seleção */
         <button id="back-to-selection" onclick="confirmExitToMenu()">Voltar para Seleção</button>
 
-        /* Botão de Sair com confirmação */
         <button class="exit-button" onclick="confirmExitToMenu()">Sair para o Menu</button>
     </div>
 
@@ -578,6 +569,8 @@ function showStartMenu() {
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
     document.getElementById("next-button").style.display = "none";
+    // Garante que o botão de voltar para o menu inicial está oculto
+    document.getElementById("back-to-start-menu").style.display = "none"; 
 }
 
 
@@ -587,6 +580,8 @@ function showMenu() {
     document.getElementById("clash-royale-quiz-area").style.display = "none";
     document.getElementById("result-container").style.display = "none";
     document.getElementById("next-button").style.display = "none";
+    // Garante que o botão de voltar para o menu inicial ESTÁ visível APENAS AQUI
+    document.getElementById("back-to-start-menu").style.display = "block"; 
 }
 
 function startQuiz(quizType) {
@@ -602,8 +597,9 @@ function startQuiz(quizType) {
     document.getElementById("menu-container").style.display = "none";
     document.getElementById("clash-royale-quiz-area").style.display = "block";
     
-    // Garante que o botão de voltar apareça no início do quiz
+    // Garante que o botão de voltar para seleção apareça, e o inicial não
     document.getElementById("back-to-selection").style.display = "block"; 
+    document.getElementById("back-to-start-menu").style.display = "none"; 
 
     loadQuestion();
 }
