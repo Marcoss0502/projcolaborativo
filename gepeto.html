@@ -28,6 +28,8 @@
     --incorrect: #F44336;
 
     --card-bg: rgba(18,25,55,0.85);
+    /* Novo: Fundo transparente para cards de quiz no menu */
+    --menu-card-bg: rgba(0, 0, 0, 0.4); 
 }
 
 /* ======================
@@ -40,6 +42,7 @@ body {
     display: flex;
     justify-content: center;
     padding: 20px 10px;
+    /* Mantém o fundo animado para toda a página */
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -226,19 +229,42 @@ h1 {
 #menu-container {
     text-align: center;
     animation: fadeUp 0.4s ease-out;
+    padding: 20px; /* Adiciona padding aqui para o fundo aparecer */
+    border-radius: 18px; /* Borda arredondada para o menu */
+    
+    /* === NOVO: GIF COMO FUNDO DO MENU === */
+    background-image: url('I.gif');
+    background-size: cover; /* Faz a imagem cobrir toda a área */
+    background-position: center;
+    background-repeat: no-repeat; /* Para que o GIF não se repita (se for grande) */
+    
+    /* Adiciona uma camada escura para o texto ser legível sobre o GIF */
+    position: relative;
+    z-index: 1; /* Garante que o menu fique acima do fundo do body */
+    overflow: hidden; /* Garante que o GIF fique dentro dos limites */
+}
+/* Opcional: Adiciona uma sobreposição escura para melhorar a leitura */
+#menu-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo preto semi-transparente */
+    border-radius: 18px;
+    z-index: -1; /* Fica atrás do conteúdo */
 }
 
+/* Remove a imagem de capa estática, pois agora ela é o fundo */
 #menu-image {
-    width: 90%;
-    max-width: 350px;
-    margin: 20px auto 30px;
-    border-radius: 15px;
-    border: 5px solid var(--yellow-strong);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.6);
+    display: none; 
 }
+
 
 .quiz-selection-card {
-    background: var(--card-bg);
+    /* Usa o novo fundo mais transparente para ver o GIF de fundo */
+    background: var(--menu-card-bg); 
     padding: 20px;
     border-radius: 18px;
     border: 3px solid var(--yellow);
@@ -250,7 +276,8 @@ h1 {
 
 .quiz-selection-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    /* Sombra mais clara para destacar no fundo GIF */
+    box-shadow: 0 10px 25px rgba(255,255,255,0.4); 
 }
 
 .quiz-selection-card h3 {
@@ -298,7 +325,7 @@ h1 {
     <div id="menu-container">
         <h1>Selecione o Quiz</h1>
         
-        <img id="menu-image" src="I.gif" alt="Imagem de Capa do Menu">
+        <div id="menu-image-placeholder"></div>
 
         <div class="quiz-selection-card" onclick="startQuiz('clashRoyale')">
             <h3>Clash Royale Quiz</h3>
@@ -334,8 +361,6 @@ h1 {
 
 // ===================================
 //      0. ARQUIVOS DE IMAGEM
-//     (O MENU AGORA IGNORA ESSA SEÇÃO,
-//      MAS USE PARA AS OUTRAS IMAGENS)
 // ===================================
 const imageFiles = {
     // Imagens das Perguntas do Clash Royale
