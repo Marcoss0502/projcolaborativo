@@ -10,7 +10,7 @@
 
 <style>
 
-// Variáveis de Estilo
+/* Variáveis de Estilo */
 :root {
     --blue-dark: #1a237e;
     --blue-mid: #283593;
@@ -26,11 +26,11 @@
     --incorrect: #F44336;
 
     --card-bg: rgba(18,25,55,0.85);
-    // Fundo transparente para cards de quiz
+    /* Fundo transparente para cards de quiz */
     --menu-card-bg: rgba(0, 0, 0, 0.4); 
 }
 
-// Estilo Geral
+/* Estilo Geral */
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
@@ -40,7 +40,7 @@ body {
     align-items: center; 
     min-height: 100vh;
     padding: 0; 
-    // Fundo animado
+    /* Fundo animado */
     animation: bg 18s infinite alternate;
     background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid), var(--blue-strong));
     background-size: 300% 300%;
@@ -57,7 +57,7 @@ body {
     padding: 20px 10px; 
 }
 
-// Menu de Início (Tela Principal)
+/* Menu de Início (Tela Principal) */
 #start-menu {
     position: fixed; 
     top: 0;
@@ -71,14 +71,14 @@ body {
     text-align: center;
     z-index: 100; 
 
-    // GIF como Fundo
+    /* GIF como Fundo */
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-// Fundo semi-transparente na Tela Inicial
+/* Fundo semi-transparente na Tela Inicial */
 #start-menu::before {
     content: "";
     position: absolute;
@@ -90,7 +90,7 @@ body {
     z-index: -1; 
 }
 
-// Título no Menu Inicial
+/* Título no Menu Inicial */
 #start-menu-title {
     width: 90%;
     max-width: 450px;
@@ -98,7 +98,7 @@ body {
     border: none; 
     border-radius: 10px;
     
-    // Animação de Levitação
+    /* Animação de Levitação */
     animation: levitate 4s infinite ease-in-out;
 }
 
@@ -108,7 +108,7 @@ body {
     100% { transform: translateY(0px); }
 }
 
-// Botão de Start
+/* Botão de Start */
 #start-button {
     cursor: pointer;
     width: 70%; 
@@ -121,7 +121,7 @@ body {
     transform: scale(1.05);
 }
 
-// Título na Tela de Seleção
+/* Título na Tela de Seleção */
 #menu-title-image {
     width: 100%;
     max-width: 450px;
@@ -132,7 +132,7 @@ body {
 }
 
 
-// Título H1
+/* Título H1 */
 h1 {
     font-family: "Clash Display", sans-serif;
     text-align: center;
@@ -148,7 +148,7 @@ h1 {
     to { transform: translateY(0); opacity: 1; }
 }
 
-// Card da Pergunta
+/* Card da Pergunta */
 .question-card {
     background: var(--card-bg);
     padding: 20px;
@@ -169,7 +169,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-// Imagens
+/* Imagens */
 .question-image {
     width: 100%;
     border-radius: 12px;
@@ -178,7 +178,7 @@ h1 {
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-// Botões de Opção
+/* Botões de Opção */
 .options-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -225,7 +225,7 @@ h1 {
     40% { transform: translateX(6px); }
 }
 
-// Botão Próximo/Reiniciar
+/* Botão Próximo/Reiniciar */
 #next-button, #restart-button {
     display: none;
     margin: 25px auto 0;
@@ -247,7 +247,7 @@ h1 {
     background: var(--yellow-strong);
 }
 
-// Tela Final
+/* Tela Final */
 #result-container {
     display: none;
     text-align: center;
@@ -285,14 +285,14 @@ h1 {
     color: var(--white);
 }
 
-// Menu de Seleção
+/* Menu de Seleção */
 #menu-container {
     text-align: center;
     animation: fadeUp 0.4s ease-out;
     padding: 20px; 
     border-radius: 18px; 
     
-    // Fundo de GIF
+    /* Fundo de GIF */
     background-image: url('I.gif');
     background-size: cover;
     background-position: center;
@@ -303,7 +303,7 @@ h1 {
     overflow: hidden; 
 }
 
-// Sobreposição escura no Menu de Seleção
+/* Sobreposição escura no Menu de Seleção */
 #menu-container::before {
     content: "";
     position: absolute;
@@ -318,7 +318,7 @@ h1 {
 
 
 .quiz-selection-card {
-    // Fundo mais transparente
+    /* Fundo mais transparente */
     background: var(--menu-card-bg); 
     padding: 20px;
     border-radius: 18px;
@@ -327,7 +327,7 @@ h1 {
     cursor: pointer;
     transition: 0.3s;
     text-align: left;
-    // Garante que o card fique acima da sobreposição
+    /* Garante que o card fique acima da sobreposição */
     position: relative;
     z-index: 1; 
 }
@@ -350,7 +350,7 @@ h1 {
     color: var(--light-text);
 }
 
-// Botão de Voltar para Menu de Seleção (dentro do quiz-area)
+/* Botão de Voltar para Menu de Seleção (dentro do quiz-area) */
 #back-to-selection {
     margin: 20px auto 0;
     padding: 10px 20px;
@@ -370,7 +370,7 @@ h1 {
     background: var(--blue-strong);
 }
 
-// Botão para o Menu Inicial (dentro da seleção de quiz)
+/* Botão para o Menu Inicial (dentro da seleção de quiz) */
 #back-to-start-menu {
     margin-top: 30px;
     padding: 10px 20px;
@@ -390,7 +390,7 @@ h1 {
     background: #7986cb;
 }
 
-// Botão de Sair com Confirmação 
+/* Botão de Sair com Confirmação */
 .exit-button {
     margin: 15px auto 0; 
     padding: 10px 20px;
@@ -416,21 +416,21 @@ h1 {
 
 <body>
 
-// MENU DE INÍCIO (TELA PRINCIPAL)
+/* MENU DE INÍCIO (TELA PRINCIPAL) */
 <div id="start-menu">
-    // Imagem de Título com Levitação
+    /* Imagem de Título com Levitação */
     <img id="start-menu-title" src="w.png" alt="Título do Quiz">
     
-    // Botão de Start
+    /* Botão de Start */
     <img id="start-button" src="start.png" alt="Botão de Start" onclick="showMenu()">
 </div>
 
 <div class="quiz-container">
 
-    // MENU DE SELEÇÃO
+    /* MENU DE SELEÇÃO */
     <div id="menu-container" style="display: none;">
         
-        // Imagem de Título na Tela de Seleção
+        /* Imagem de Título na Tela de Seleção */
         <img id="menu-title-image" src="w.png" alt="Título do Quiz">
         
         <h1>Selecione o Quiz</h1>
@@ -445,13 +445,13 @@ h1 {
             <p>Um desafio para sua mente! História, Ciência, Cultura Pop e muito mais.</p>
         </div>
 
-        // Botão para voltar para a tela inicial
+        /* Botão para voltar para a tela inicial */
         <button id="back-to-start-menu" onclick="showStartMenu()">Voltar para Menu Inicial</button>
 
     </div>
 
 
-    // ÁREA DO QUIZ
+    /* ÁREA DO QUIZ */
     <div id="clash-royale-quiz-area" style="display: none;">
         <h1 id="quiz-title">Quiz</h1>
         <div id="quiz-area"></div>
@@ -465,10 +465,10 @@ h1 {
             <button id="restart-button">Reiniciar Quiz</button> 
         </div>
 
-        // Botão de Voltar para o Menu de Seleção
+        /* Botão de Voltar para o Menu de Seleção */
         <button id="back-to-selection" onclick="confirmExitToMenu()">Voltar para Seleção</button>
 
-        // Botão de Sair com confirmação
+        /* Botão de Sair com confirmação */
         <button class="exit-button" onclick="confirmExitToMenu()">Sair para o Menu</button>
     </div>
 
